@@ -4,24 +4,25 @@
 #   Do not edit lines that say: "# Last line in ____"
 ###############################################################################
 # Imports  # there will only be one import added here.
+import os
 
 ###############################################################################
 # Write f01 that prints "Hello World!" and calls f02. (three lines)
 def f01():
-
+    print "Hello World!"
     f02()
 ###############################################################################
 # Write f02 that sets the variables x, y, and z equal to the words 
 # necessary to have the f03 print "i love python!" (five lines)
-
-
-
-
+def f02():
+    x = "i"
+    y = "love"
+    z = "python"
     f03(x,y,z)  # Last line in f2()
 ###############################################################################
 # Finish f03 (replace the ????). 
 def f03(*words):
-    truth = " ".???(words)  # This is broken.
+    truth = " ".join(words)  # This is broken.
     truth_emphasized = truth + "!"
     print truth_emphasized
     f04(truth)  # Last line in f03()
@@ -29,7 +30,7 @@ def f03(*words):
 # Write f04 that prints truth backwards (edit one line only)
 # Ex. f4("Littlest Bear") prints "raeB tselttiL"
 def f04(string):
-    
+    print string[::-1]
     f05(string)  # Last line in f04()
 ###############################################################################
 # Write f05 that for each char in a word passed as a parameter, prints that 
@@ -41,11 +42,10 @@ def f04(string):
 #   Info
 #    Info
 def f05(word):
-
-
-
-
-
+    count = 0
+    for char in word:
+        print ' '*count + word
+        count+=1
     f06("South Hall", "Python Rocks!")  # Last line in f05()
 ###############################################################################
 # Write f06 that takes two strings:
@@ -59,14 +59,16 @@ def f05(word):
 # 'longer_string' is longer than 'short_string' by 1 chars
 # 'short_string' has only 92.31% the number of chars of longer_string
 def f06(string1, string2):
-
-
-
-
-
-
-
-
+    len1 = len(string1)
+    len2 = len(string2)
+    if len1>len2:
+        print "'{0}' is longer than '{1}' by {2} chars".format(string1,string2,len1-len2)
+        print "'{0}' has only {1}% the number of chars of {2}".format(string2, len2/len1*100,string1)
+    elif len2>len1:
+        print "'{0}' is longer than '{1}' by {2} chars".format(string2,string1,len2-len1)
+        print "'{0}' has only {1}% the number of chars of {2}".format(string1, len1/len2*100,string2)
+    else:
+        print "Both strings are equal."
     various_solutions()  # Last line in f06()
 ###############################################################################
 # Write f07, f08, f09, f10 to find the sum of all the multiples of 3 or 5 
@@ -83,7 +85,7 @@ def various_solutions():
     while_ = f07()
     for_ = f08()
     list_comprehension = f09()
-    recursion = f10()
+    recursion = f10(500)
     # DO NOT EDIT BELOW THIS LINE
     vals = [while_, for_, list_comprehension, recursion]
     for val in vals:
@@ -97,43 +99,49 @@ def various_solutions():
     f12()
 ###############################################################################
 def f07():
-    
-
-
+    n = 1 
+    sumOfNumbers = 0
+    while n <= 500:
+        if (n%3 == 0) or (n%5==0):
+            sumOfNumbers = sumOfNumbers + n
+        n+=1
+    return sumOfNumbers
 
 ###############################################################################
 def f08():
-    
-
-
+    sumOfNumbers = 0
+    for number in range(501):
+        if (number%3 ==0) or (number%5==0):
+            sumOfNumbers = sumOfNumbers + number
+    return sumOfNumbers
 
 ###############################################################################
 def f09():
-    
-
-
-
-
+    sumOfNumbers =  sum([x for x in range(501) if (x%3 ==0) or (x%5==0)])
+    return sumOfNumbers
 
 ###############################################################################
-def f10():
-
-
-
-
-
-
-
+def f10(number):
+    if number==0:
+        return 0
+    else:
+        if (number%3 ==0) or (number%5 ==0):
+            sumOfNumbers = number + f10(number-1)
+        else:
+            sumOfNumbers = f10(number-1)
+    return sumOfNumbers
 
 ###############################################################################
 # Write f11() to take arguments, printing them as floats if they started as
 # strings, integers if they started as floats, and as the value 0 if they
 # started as ints.
 def f11(args):
-    
-
-
-
+    if type(args) == str:
+        print float(args)
+    elif type(args) == float:
+        print int(args)
+    elif type(args) == int:
+        print 0
 
 ###############################################################################
 # Write f12() to ask for raw_input from the user. Change the input to a float.
@@ -148,17 +156,26 @@ def f11(args):
 # Ex. printing
 #   [1.0, 1.3, 2.443]
 def f12():
-    
-
-
-
-
-
+    faultyInput = ''
+    convertedInput = []
+    while True:
+        userInput = raw_input("Please enter numbers: ")
+        if userInput == 'done':
+            break
+        else:
+            try:
+                userInput_float = float(userInput)
+            except:
+                faultyInput = faultyInput + userInput + '\n'
+            else:
+                convertedInput.append(userInput_float)
+    with open("log_file.txt","w") as fin:
+        fin.write(faultyInput)
     f13()  # Last line in f12()
 ###############################################################################
 # Fix the error in f13:
 def f13():
-    for each in "string"
+    for each in "string":
         print each
     f14()  # Last line in f13()
 ###############################################################################
@@ -166,11 +183,7 @@ def f13():
 # You must add an import statement. Please do so at the top of the file.
 # Ex. /Users/dsg/Desktop/python-boot-camp/HW11/diagnostic.py
 def f14():
-    
-
-
-
-
+    print os.path.abspath("diagnostic.py")
     f15()  # Last line in f14()
 ###############################################################################
 # Write f15 to print the goal below. Do not print any strings.
@@ -187,12 +200,14 @@ def f14():
 # [[], [], [], [], [], [], [], [], [0], []]
 # [[], [], [], [], [], [], [], [], [], [0]]
 def f15():
-
-
-
-
-
-
+    for row in range(10):
+        listRow = []
+        for col in range(10):
+            if row == col:
+                listRow.append([0])
+            else:
+                listRow.append([])
+        print listRow
     f16([1,2,3],[4,5,6])  # Last line in f15()
 ###############################################################################
 # Write f16() that takes two lists and prints a list with the nth elements of 
@@ -200,35 +215,29 @@ def f15():
 # Ex.
 # [1,2,3] and [4,5,6] would produce [(1, 4), (2, 5), (3, 6)]
 def f16(list1, list2):
-    
-
-
-
-
-
+    print zip(list1,list2)
     f17()  # Last line in f16()
 ###############################################################################
 # Write f17() to take the 2nd line from few_words.txt, and print a list
 # with the index of the word in that line and the word, sharing tuples.
 # Ex. [(0, 'To'), (1, 'be'), (2, 'or'), (3, 'not'), (4, 'to'), (5, 'be')]
 def f17():
-    
-
-
-
-
+    with open("few_words.txt", "r") as fin:
+        fin.readline()
+        text = fin.readline()
+    newlineRemovedText = text.strip()
+    listOfWords = newlineRemovedText.split()
+    wordPositions = [n for n in range(len(listOfWords))]
     # Be sure to save the list that you print to list_
-    list_ =  list()  # Change to your list 
+    list_ =  zip(wordPositions, listOfWords)  # Change to your list 
     f18(list_)  # Last line in f17()
 # Write f18 to take the list above and create a dictionary, use the words as
 # keys and the numbers as values.
 # Print the dictionary.
 # Call the dictionary in f19()
 def f18(list_):
-
-
-
-
+    d = { word : value for (value, word) in list_}
+    print d
 
     f19(d)  # Last line in f18()
 # Write f19 to update that dictionary by changing the values by adding the 
@@ -236,21 +245,23 @@ def f18(list_):
 # would be even), otherwise change the value to the ascii number for the last
 # char in the word. Print the new dictionary.
 def f19(d):
-    
-
-
-
+    for item in d:
+        currentValue = d[item]
+        if (currentValue + len(item))%2 ==0:
+            d[item] = currentValue + len(item)
+        else:
+            d[item] = ord(item[-1])
     f22()  # Last line in f19()
 # Write f21() to find if a word is capitalized. Return True/False.
 # Ex.
 # f21("Yes") = True, f21("NO") = False, 
 # f21("nope") = False, f21("nADA") = False
 def f21(word):
-    
-
-
-
-
+    capitalizedWord = word.capitalize()
+    if capitalizedWord == word and word != '':
+        return True
+    else:
+        return False
 
 # Write f22() to use f21() to (1) print a list of all capitalized words in 
 # few_words.txt sorted by length. Then (2) remove all duplicate words.
@@ -264,13 +275,29 @@ def f21(word):
 # Ex. second print:
 # ['PYTHON!', ['Other1', 'Other_2']]
 def f22():
-    
-
-
-
-
-
-
+    #1
+    with open("few_words.txt", "r") as fin:
+        text = fin.read()
+    text = text.replace("\n", " ")
+    listOfWords = text.split(" ")
+    listOfCapitalizedWords = sorted([x for x in listOfWords if f21(x) == True], key = len)
+    print listOfCapitalizedWords
+    #2
+    removedDuplicates = list(set(listOfCapitalizedWords))
+    #3
+    indexOfPython = removedDuplicates.index("Python")
+    removedDuplicates.insert(0, removedDuplicates.pop(indexOfPython))
+    #4
+    removedDuplicates[0] = removedDuplicates[0].upper()
+    #5
+    if ("magic" in removedDuplicates):
+        removedDuplicates.remove("magic")
+    #6
+    removedDuplicates[0] = removedDuplicates[0] + "!"
+    #7
+    modifiedList = [removedDuplicates[0], removedDuplicates[1:]]
+    #8
+    print modifiedList
 
 
     f23([["o","o","x"],["x","o","x"],["o","","x"]])  # Last lines in f22()
@@ -285,31 +312,52 @@ def f22():
 # row2 = ["","x",""]
 # row3 = ["","",""]
 # Ex. of print: x, col2
+def is_winner(name, values):
+    if all( x=="x" for x in values) :
+        print "x, {0}".format(name)
+        return True
+    elif all( x=="o" for x in values):
+        print "o, {0}".format(name)
+        return True
+    return False
+
 def f23(lists_):
+    row1 = lists_[0]
+    row2 = lists_[1]
+    row3 = lists_[2]
+    columns = zip(row1, row2, row3)
+    col1 = columns[0]
+    col2 = columns[1]
+    col3 = columns[2]
+    falling_back_diag = [row1[0], row2[1], row3[2]]
+    falling_front_diag = [row1[2], row2[1], row3[0]]
 
-
-
-
-
-
-
-
-
-
-
-
-
+    if is_winner("row1", row1):
+        pass
+    elif is_winner("row2", row2):
+        pass
+    elif is_winner("row3", row3):
+        pass
+    elif is_winner("col1", col1):
+        pass
+    elif is_winner("col2", col2):
+        pass
+    elif is_winner("col3", col3):
+        pass
+    elif is_winner("falling_back_diag", falling_back_diag):
+        pass
+    elif is_winner("falling_front_diag", falling_front_diag):
+        pass
 
 # Write main() that calls f01, then prints the The Zen of Python, by Tim Peters.
 # (three lines)
 def main():
-
-
-
-
-
-
-
+    f01()
+    import this
+    
 # Write the boilerplate code. (two lines)
+if __name__ == '__main__':
+    main()
+
 
 
